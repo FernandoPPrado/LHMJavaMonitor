@@ -1,0 +1,23 @@
+# Ignorar a pasta do executável
+LibreHardwareMonitor/
+
+# Ignorar arquivos do Windows/IDE
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Ignorar compilação do Java
+target/
+*.class
+C:\Users\zyppy\OneDrive\Desktop\PROJETINHO\LibreHardwareMonitor
+
+/LibreHardwareMonitor/
+/[Ll]ibre[Hh]ardware[Mm]onitor/
+*.exe
+*.dll
+*.sys
+*.config
+/target/
+.idea/
+.vscode/
