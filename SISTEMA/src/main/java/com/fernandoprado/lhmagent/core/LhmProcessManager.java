@@ -1,5 +1,8 @@
 package com.fernandoprado.lhmagent.core;
 
+import com.fernandoprado.lhmagent.threads.MainThread;
+import com.sun.tools.javac.Main;
+
 import java.io.IOException;
 
 public class LhmProcessManager {
@@ -14,9 +17,6 @@ public class LhmProcessManager {
 
     public static void main(String[] args) throws IOException {
 
-        LhmProcessManager lhmProcessManager = new LhmProcessManager();
-
-        lhmProcessManager.startLhm();
 
     }
 
