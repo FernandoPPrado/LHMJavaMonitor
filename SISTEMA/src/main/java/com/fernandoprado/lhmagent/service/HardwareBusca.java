@@ -1,6 +1,7 @@
 package com.fernandoprado.lhmagent.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fernandoprado.lhmagent.model.Sensor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,15 +10,20 @@ public class HardwareBusca {
 
     public List<String> listaSesores = List.of("CPU Total", "Core (Tctl/Tdie)", "GPU Hot Spot");
 
+    public List<Sensor> sensorList = List.of(new Sensor("Core (Tctl/Tdie)", "Temperature"),
+            new Sensor("CPU Total", "Load"),
+            new Sensor("GPU Hot Spot", "Temperature"),
+            new Sensor("Memory", "Load"));
 
-    public String mapearTudo(JsonNode node, String path, String alvo) {
+    public String mapearTudo(JsonNode node, String path, Sensor alvo) {
 
         if (node == null) return null;
 
-        if (node.has("Text") && node.get("Text").asText().equalsIgnoreCase(alvo)) {
+        String name = node.path("Text").asText();
+        String type = node.path("Type").asText();
 
-            //Teremos um log aqui
-            System.out.printf(path + "/Value");
+
+        if (alvo.name().equalsIgnoreCase(name) && alvo.type().equalsIgnoreCase(type)) {
             return path + "/Value";
         }
 
@@ -37,11 +43,13 @@ public class HardwareBusca {
 
 
     public Map<String, String> encontrarPath(JsonNode rootNode) {
-        return listaSesores.stream()
-                .collect(Collectors.toMap(
-                        nome -> nome,
-                        nome -> mapearTudo(rootNode, "", nome)
-                ));
+        return sensorList.stream().collect(Collectors.toMap(Sensor::name, sensor -> {
+            String path = mapearTudo(rootNode, "", sensor);
+            if (path != null) {
+                return path;
+            } else return "0";
+        }));
+
     }
 
 
