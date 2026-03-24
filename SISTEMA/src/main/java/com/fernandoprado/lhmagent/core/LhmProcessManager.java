@@ -15,10 +15,6 @@ public class LhmProcessManager {
     }
 
 
-    public static void main(String[] args) throws IOException {
-
-
-    }
 
 }
 
