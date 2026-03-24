@@ -17,6 +17,7 @@ public class HardwareFinder {
 
         mapaDePaths.forEach((nome, path) -> {
 
+            if (path.equals("0")) return;
             JsonNode valorNode = node.at(path);
 
             if (!valorNode.isMissingNode()) {
