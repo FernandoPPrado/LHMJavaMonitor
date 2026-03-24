@@ -10,33 +10,36 @@ import feign.jackson.JacksonDecoder;
 
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainThread {
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    int i = 0;
-
-    LhmClient client = Feign.builder()
-            .decoder(new JacksonDecoder())
-            .target(LhmClient.class, "http://localhost:8085");
-
+    private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
     HardwareBusca hardwareBusca = new HardwareBusca();
     HardwareFinder hardwareFinder = new HardwareFinder();
+    GetThread getThread = new GetThread();
 
-    public void start() {
-        JsonNode node = null;
+    public void start(JsonNode node) {
 
         Map<String, String> hashPath = hardwareBusca.encontrarPath(node);
 
         executorService.scheduleAtFixedRate(
 
                 () -> {
-                    try {
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (isRunning.compareAndSet(false, true)) {
+                        try {
+                            getThread.getLHMInfo(hashPath, isRunning);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        System.out.println("Pulando... Leitura anterior ainda em curso.");
                     }
 
 
