@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class HardwareBusca {
 
-    public List<String> listaSesores = List.of("CPU Total");
+    public List<String> listaSesores = List.of("CPU Total", "Core (Tctl/Tdie)", "GPU Hot Spot");
 
 
     public String mapearTudo(JsonNode node, String path, String alvo) {
