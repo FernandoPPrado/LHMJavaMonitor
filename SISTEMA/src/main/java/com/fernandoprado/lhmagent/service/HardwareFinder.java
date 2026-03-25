@@ -1,6 +1,7 @@
 package com.fernandoprado.lhmagent.service;
 
 
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
@@ -12,10 +13,10 @@ public class HardwareFinder {
 
     public HardwareBusca hardwareBusca = new HardwareBusca();
 
-    public Map<String, String> lerValoresAtuais(JsonNode node, Map<String, String> mapaDePaths) {
+    public Map<String, String> lerValoresAtuais(JsonNode node, Map<String, JsonPointer> mapaDePointers) {
         Map<String, String> resultado = new HashMap<>();
 
-        mapaDePaths.forEach((nome, path) -> {
+        mapaDePointers.forEach((nome, path) -> {
 
             if (path.equals("0")) return;
             JsonNode valorNode = node.at(path);

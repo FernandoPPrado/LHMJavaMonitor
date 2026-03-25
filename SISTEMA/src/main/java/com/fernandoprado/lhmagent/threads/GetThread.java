@@ -1,5 +1,6 @@
 package com.fernandoprado.lhmagent.threads;
 
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fernandoprado.lhmagent.client.LhmClient;
 import com.fernandoprado.lhmagent.service.HardwareFinder;
@@ -22,7 +23,7 @@ public class GetThread {
 
     public static HardwareFinder hardwareFinder = new HardwareFinder();
 
-    public void getLHMInfo(Map<String, String> mapaPath, AtomicBoolean atomicBoolean) {
+    public void getLHMInfo(Map<String, JsonPointer> mapaPath, AtomicBoolean atomicBoolean) {
 
 
         executor.submit(() -> {

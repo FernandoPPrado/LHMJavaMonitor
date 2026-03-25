@@ -1,5 +1,6 @@
 package com.fernandoprado.lhmagent.threads;
 
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fernandoprado.lhmagent.client.LhmClient;
@@ -24,7 +25,7 @@ public class MainThread {
 
     public void start(JsonNode node) {
 
-        Map<String, String> hashPath = hardwareBusca.encontrarPath(node);
+        Map<String, JsonPointer> hashPath = hardwareBusca.encontrarPath(node);
 
         executorService.scheduleAtFixedRate(
 
