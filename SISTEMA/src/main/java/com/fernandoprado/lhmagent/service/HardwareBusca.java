@@ -1,5 +1,6 @@
 package com.fernandoprado.lhmagent.service;
 
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fernandoprado.lhmagent.model.Sensor;
 
@@ -42,13 +43,19 @@ public class HardwareBusca {
     }
 
 
-    public Map<String, String> encontrarPath(JsonNode rootNode) {
-        return sensorList.stream().collect(Collectors.toMap(Sensor::name, sensor -> {
+    public Map<String, JsonPointer> encontrarPath(JsonNode rootNode) {
+        Map<String, String> mapaString = sensorList.stream().collect(Collectors.toMap(Sensor::name, sensor -> {
             String path = mapearTudo(rootNode, "", sensor);
             if (path != null) {
                 return path;
             } else return "0";
         }));
+
+        return mapaString.entrySet().stream().filter(
+                        entry -> entry.getValue().startsWith("/"))
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> JsonPointer.compile(entry.getValue())
+                        )
+                );
 
     }
 
