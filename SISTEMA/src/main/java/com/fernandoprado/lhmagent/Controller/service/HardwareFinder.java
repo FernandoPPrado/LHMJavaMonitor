@@ -1,13 +1,11 @@
-package com.fernandoprado.lhmagent.service;
+package com.fernandoprado.lhmagent.Controller.service;
 
 
 import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class HardwareFinder {
 

@@ -1,4 +1,4 @@
-package com.fernandoprado.lhmagent.model;
+package com.fernandoprado.lhmagent.Controller.model;
 
 public record Sensor(
 

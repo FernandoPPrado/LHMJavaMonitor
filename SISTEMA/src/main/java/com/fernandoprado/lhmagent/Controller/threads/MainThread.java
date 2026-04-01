@@ -1,24 +1,19 @@
-package com.fernandoprado.lhmagent.threads;
+package com.fernandoprado.lhmagent.Controller.threads;
 
 import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fernandoprado.lhmagent.client.LhmClient;
-import com.fernandoprado.lhmagent.service.HardwareBusca;
-import com.fernandoprado.lhmagent.service.HardwareFinder;
-import com.fernandoprado.lhmagent.service.MeuMetodoImpressao;
-import feign.Feign;
-import feign.jackson.JacksonDecoder;
+import com.fernandoprado.lhmagent.Controller.model.AppEvent;
+import com.fernandoprado.lhmagent.Controller.service.HardwareBusca;
+import com.fernandoprado.lhmagent.Controller.service.HardwareFinder;
+import com.fernandoprado.lhmagent.Controller.service.MeuMetodoImpressao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainThread {
-    private SubmissionPublisher<ArrayList<Map<String, String>>> submissionPublisher = new SubmissionPublisher<>();
+    private SubmissionPublisher<AppEvent<Map<String, String>>> submissionPublisher = new SubmissionPublisher<>();
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     HardwareBusca hardwareBusca = new HardwareBusca();

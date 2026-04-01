@@ -1,7 +1,4 @@
-package com.fernandoprado.lhmagent.core;
-
-import com.fernandoprado.lhmagent.threads.MainThread;
-import com.sun.tools.javac.Main;
+package com.fernandoprado.lhmagent.Controller.core;
 
 import java.io.IOException;
 

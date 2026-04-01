@@ -1,8 +1,8 @@
-package com.fernandoprado.lhmagent.service;
+package com.fernandoprado.lhmagent.Controller.service;
 
 import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fernandoprado.lhmagent.model.Sensor;
+import com.fernandoprado.lhmagent.Controller.model.Sensor;
 
 import java.util.*;
 import java.util.stream.Collectors;

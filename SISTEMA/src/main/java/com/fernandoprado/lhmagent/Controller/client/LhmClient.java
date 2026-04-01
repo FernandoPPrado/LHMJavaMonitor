@@ -1,4 +1,4 @@
-package com.fernandoprado.lhmagent.client;
+package com.fernandoprado.lhmagent.Controller.client;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
