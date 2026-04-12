@@ -4,15 +4,10 @@ import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 import com.fernandoprado.lhmagent.Controller.service.HardwareBusca;
-import com.fernandoprado.lhmagent.Controller.service.HardwareFinder;
-import com.fernandoprado.lhmagent.view.TrayView;
-import com.fernandoprado.lhmagent.view.ViewPrint;
-
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+
 
 public class MainThread {
     private final SubmissionPublisher<AppEvent<?>> submissionPublisher;

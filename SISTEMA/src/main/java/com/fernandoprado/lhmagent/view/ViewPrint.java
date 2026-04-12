@@ -1,8 +1,6 @@
 package com.fernandoprado.lhmagent.view;
 
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
-
-import java.util.Map;
 import java.util.concurrent.SubmissionPublisher;
 
 public class ViewPrint {
