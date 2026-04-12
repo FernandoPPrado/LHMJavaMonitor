@@ -1,5 +1,6 @@
 package com.fernandoprado.lhmagent.view;
 
+import com.fernandoprado.lhmagent.Controller.messaging.configuration.RabbitMQProvider;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 
 import javax.imageio.ImageIO;
@@ -7,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.concurrent.SubmissionPublisher;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -43,7 +43,7 @@ public class TrayView {
     public void createIcon() throws AWTException {
 
         try {
-            image = ImageIO.read(new File("SISTEMA/src/main/resources/images/sr5zd6da43c2e0aws3.png"));
+            image = ImageIO.read(new File("C:\\Users\\zyppy\\OneDrive\\Desktop\\PROJETINHO\\SISTEMA\\src\\main\\resources\\images\\sr5zd6da43c2e0aws3.png"));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -55,7 +55,11 @@ public class TrayView {
             SystemTray systemTray = SystemTray.getSystemTray();
             PopupMenu pop = new PopupMenu();
             pop.add("CLOSE");
-            pop.addActionListener((actionEvent) -> System.exit(0));
+            pop.addActionListener((actionEvent) -> {
+                RabbitMQProvider.closeConnection();
+                System.exit(0);
+            });
+
             TrayIcon trayIcon = new TrayIcon(image, s, pop);
             atomicIcon = new AtomicReference<>(trayIcon);
             trayIcon.setImageAutoSize(true);
