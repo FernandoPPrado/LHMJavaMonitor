@@ -7,6 +7,7 @@ import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 import com.fernandoprado.lhmagent.Controller.service.HardwareFinder;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
+
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +28,7 @@ public class GetThread {
             .target(LhmClient.class, "http://localhost:8085");
 
 
-    final SubmissionPublisher submissionPublisher;
+    final SubmissionPublisher<AppEvent<?>> submissionPublisher;
 
     public GetThread(SubmissionPublisher<AppEvent<?>> sub) {
         this.submissionPublisher = sub;
