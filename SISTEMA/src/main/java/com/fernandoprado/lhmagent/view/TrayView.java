@@ -1,5 +1,6 @@
 package com.fernandoprado.lhmagent.view;
 
+import com.fernandoprado.lhmagent.Controller.core.LhmProcessManager;
 import com.fernandoprado.lhmagent.Controller.messaging.configuration.RabbitMQProvider;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 
@@ -21,7 +22,6 @@ public class TrayView {
     public TrayView(SubmissionPublisher<AppEvent<?>> sub) {
         this.sub = sub;
         sub.consume((e) -> {
-            System.out.println("OIIIIIIIIIIIII");
             switch (e.eventType()) {
                 case OK -> {
                     s = e.payload().toString();
@@ -57,6 +57,7 @@ public class TrayView {
             pop.add("CLOSE");
             pop.addActionListener((actionEvent) -> {
                 RabbitMQProvider.closeConnection();
+                LhmProcessManager.closeLhm();
                 System.exit(0);
             });
 

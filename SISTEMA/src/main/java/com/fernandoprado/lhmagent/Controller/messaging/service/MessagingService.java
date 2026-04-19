@@ -21,18 +21,7 @@ public class MessagingService {
     public MessagingService(SubmissionPublisher<AppEvent<?>> sub) {
         this.submissionPublisher = sub;
         initServer();
-        submissionPublisher.consume(appEvent -> {
-            System.out.println("Chegouu");
-            if (appEvent.eventType() == AppEvent.EventType.UPDATE) {
-                try {
-                    if (locked.compareAndSet(false, true))
-                        sendMessage((Map<String, String>) appEvent.payload());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    locked.set(false);
-                }
-            }
-        });
+        submissionPublisher.consume(this::processAppEvent);
     }
 
     public void initServer() {
@@ -66,4 +55,17 @@ public class MessagingService {
         }
     }
 
+    public void processAppEvent(AppEvent<?> appEvent) {
+
+        if (appEvent.eventType() == AppEvent.EventType.UPDATE) {
+            try {
+                if (locked.compareAndSet(false, true))
+                    sendMessage((Map<String, String>) appEvent.payload());
+            } catch (Exception e) {
+                e.printStackTrace();
+                locked.set(false);
+            }
+        }
+
+    }
 }
