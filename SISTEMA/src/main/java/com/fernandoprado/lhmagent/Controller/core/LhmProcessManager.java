@@ -4,13 +4,16 @@ import java.io.IOException;
 
 public class LhmProcessManager {
 
-    private Process process;
+    public static Process process;
 
     public void startLhm() throws IOException {
         ProcessBuilder pb = new ProcessBuilder("LibreHardwareMonitor/LibreHardwareMonitor.exe");
-        pb.start();
+        process = pb.start();
     }
 
+    public static void closeLhm() {
+        process.destroyForcibly();
+    }
 
 
 }
