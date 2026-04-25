@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.concurrent.SubmissionPublisher;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -43,7 +46,9 @@ public class TrayView {
     public void createIcon() throws AWTException {
 
         try {
-            image = ImageIO.read(new File("C:\\Users\\zyppy\\OneDrive\\Desktop\\PROJETINHO\\SISTEMA\\src\\main\\resources\\images\\sr5zd6da43c2e0aws3.png"));
+            InputStream is = getClass().getResourceAsStream("/images/sr5zd6da43c2e0aws3.png");
+            if (is == null) throw new IllegalArgumentException();
+            image = ImageIO.read(is);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
