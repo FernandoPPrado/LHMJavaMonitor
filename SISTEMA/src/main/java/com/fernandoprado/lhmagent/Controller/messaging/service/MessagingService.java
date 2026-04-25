@@ -1,6 +1,7 @@
 package com.fernandoprado.lhmagent.Controller.messaging.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fernandoprado.lhmagent.Controller.enviroment.EnvConfiguration;
 import com.fernandoprado.lhmagent.Controller.messaging.configuration.RabbitMQProvider;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 import com.rabbitmq.client.Channel;

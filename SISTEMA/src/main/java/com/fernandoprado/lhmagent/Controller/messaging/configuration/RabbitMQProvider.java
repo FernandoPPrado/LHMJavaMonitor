@@ -1,5 +1,6 @@
 package com.fernandoprado.lhmagent.Controller.messaging.configuration;
 
+import com.fernandoprado.lhmagent.Controller.enviroment.EnvConfiguration;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -14,7 +15,7 @@ public class RabbitMQProvider {
         }
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setUri("amqps://mwdvyghp:YXpGDCgjw2JsAfQ3_9ZpiSTY0hyUiWm-@jackal.rmq.cloudamqp.com/mwdvyghp");
+        factory.setUri(EnvConfiguration.RABBITMQ_URI);
 
         connection = factory.newConnection();
         System.out.println("[RabbitMQ] Tubulação TCP mestre estabelecida com sucesso.");
