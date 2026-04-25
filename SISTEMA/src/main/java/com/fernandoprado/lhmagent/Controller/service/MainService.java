@@ -3,6 +3,7 @@ package com.fernandoprado.lhmagent.Controller.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fernandoprado.lhmagent.Controller.client.LhmClient;
 import com.fernandoprado.lhmagent.Controller.core.LhmProcessManager;
+import com.fernandoprado.lhmagent.Controller.enviroment.EnvConfiguration;
 import com.fernandoprado.lhmagent.Controller.messaging.configuration.RabbitMQProvider;
 import com.fernandoprado.lhmagent.Controller.messaging.service.MessagingService;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
@@ -24,9 +25,7 @@ public class MainService {
     MessagingService messagingService = new MessagingService(submissionPublisher);
     MainThread mainThread = new MainThread(submissionPublisher);
 
-    public LhmClient client = Feign.builder()
-            .decoder(new JacksonDecoder())
-            .target(LhmClient.class, "http://localhost:8085");
+    public LhmClient client = Feign.builder().decoder(new JacksonDecoder()).target(LhmClient.class, EnvConfiguration.LHM_CLIENT_URL);
 
 
     public void initProgram() {
