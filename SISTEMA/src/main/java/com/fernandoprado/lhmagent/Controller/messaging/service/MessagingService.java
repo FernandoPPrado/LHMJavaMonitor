@@ -2,6 +2,7 @@ package com.fernandoprado.lhmagent.Controller.messaging.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fernandoprado.lhmagent.Controller.enviroment.EnvConfiguration;
+import com.fernandoprado.lhmagent.Controller.logger.model.LogData;
 import com.fernandoprado.lhmagent.Controller.messaging.configuration.RabbitMQProvider;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 import com.rabbitmq.client.Channel;
@@ -30,8 +31,13 @@ public class MessagingService {
             RabbitMQProvider.initConnection();
             channel = RabbitMQProvider.createChannel();
             channel.queueDeclare("MinhaFila", true, false, false, null);
+            submissionPublisher
+                    .submit(new AppEvent<>(AppEvent.EventType.LOG_OK, new LogData(MessagingService.class.getSimpleName(), "CONEXAO ESTABELECIDA", null)));
+
         } catch (Exception e) {
-            e.printStackTrace();
+            submissionPublisher
+                    .submit(new AppEvent<>(AppEvent.EventType.LOG_ERROR, new LogData(MessagingService.class.getSimpleName(), "FALHA AO DECLARAR CONEXAO COM RABBIT", e)));
+
         }
 
     }
@@ -40,15 +46,18 @@ public class MessagingService {
 
         try {
             if (channel == null || !channel.isOpen()) {
-                System.out.println("Canal Fechado");
+                submissionPublisher
+                        .submit(new AppEvent<>(AppEvent.EventType.LOG_WARN, new LogData(MessagingService.class.getSimpleName(), "CANAL FECHADO", null)));
             } else {
                 String jsonPayload = objectMapper.writeValueAsString(mapEvent);
                 channel.basicPublish("", "MinhaFila", null, jsonPayload.getBytes(StandardCharsets.UTF_8));
-                System.out.println("Mensagem enviada");
+                submissionPublisher
+                        .submit(new AppEvent<>(AppEvent.EventType.LOG_OK, new LogData(MessagingService.class.getSimpleName(), "MENSAGEM ENVIADA", null)));
             }
 
         } catch (Exception e) {
-            System.out.printf("Erro ao enviar mensagem {%s}", e.getMessage());
+            submissionPublisher
+                    .submit(new AppEvent<>(AppEvent.EventType.LOG_ERROR, new LogData(MessagingService.class.getSimpleName(), "FALHA AO ENVIAR MENSAGEM", e)));
 
         } finally {
             locked.set(false);
@@ -59,13 +68,9 @@ public class MessagingService {
     public void processAppEvent(AppEvent<?> appEvent) {
 
         if (appEvent.eventType() == AppEvent.EventType.UPDATE) {
-            try {
-                if (locked.compareAndSet(false, true))
-                    sendMessage((Map<String, String>) appEvent.payload());
-            } catch (Exception e) {
-                e.printStackTrace();
-                locked.set(false);
-            }
+            if (locked.compareAndSet(false, true))
+                sendMessage((Map<String, String>) appEvent.payload());
+
         }
 
     }
