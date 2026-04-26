@@ -6,6 +6,7 @@ import com.fernandoprado.lhmagent.Controller.enviroment.EnvConfiguration;
 import com.fernandoprado.lhmagent.Controller.model.Sensor;
 
 import java.util.*;
+import java.util.concurrent.SubmissionPublisher;
 import java.util.stream.Collectors;
 
 public class HardwareBusca {
@@ -19,7 +20,6 @@ public class HardwareBusca {
     public String mapearTudo(JsonNode node, String path, Sensor alvo) {
 
         if (node == null) return null;
-
         String name = node.path("Text").asText();
         String type = node.path("Type").asText();
 

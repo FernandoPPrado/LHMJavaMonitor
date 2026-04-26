@@ -3,6 +3,7 @@ package com.fernandoprado.lhmagent.Controller.threads;
 import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fernandoprado.lhmagent.Controller.client.LhmClient;
+import com.fernandoprado.lhmagent.Controller.logger.model.LogData;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 import com.fernandoprado.lhmagent.Controller.service.HardwareFinder;
 import feign.Feign;
@@ -38,17 +39,17 @@ public class GetThread {
 
 
         executor.submit(() -> {
-
+            AppEvent<Map<String, String>> appEvent;
             try {
                 JsonNode jsonNode = client.getHardwareData();
                 Map<String, String> mapRetorno = (hardwareFinder.lerValoresAtuais(jsonNode, mapaPath));
 
-                AppEvent<Map<String, String>> appEvent = new AppEvent<>(AppEvent.EventType.UPDATE, mapRetorno);
+                appEvent = new AppEvent<>(AppEvent.EventType.UPDATE, mapRetorno);
                 submissionPublisher.submit(appEvent);
                 lastAppEvent.set(new AppEvent<String>(AppEvent.EventType.OK, "OK"));
 
             } catch (Exception e) {
-                e.printStackTrace();
+                submissionPublisher.submit(new AppEvent<LogData>(AppEvent.EventType.LOG_ERROR, new LogData(GetThread.class.toString(), "ERRO AO LER O JSON", e)));
                 lastAppEvent.set(new AppEvent<String>(AppEvent.EventType.ERROR, "ERRO"));
             } finally {
                 if (oldAppEvent.get().eventType() != lastAppEvent.get().eventType()) {
