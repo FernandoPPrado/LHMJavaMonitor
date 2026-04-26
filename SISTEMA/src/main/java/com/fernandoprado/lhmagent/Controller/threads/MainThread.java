@@ -2,8 +2,10 @@ package com.fernandoprado.lhmagent.Controller.threads;
 
 import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fernandoprado.lhmagent.Controller.logger.model.LogData;
 import com.fernandoprado.lhmagent.Controller.model.AppEvent;
 import com.fernandoprado.lhmagent.Controller.service.HardwareBusca;
+
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,7 +17,6 @@ public class MainThread {
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     HardwareBusca hardwareBusca = new HardwareBusca();
     GetThread getThread;
-    ;
 
     public MainThread(SubmissionPublisher<AppEvent<?>> subs) {
         this.submissionPublisher = subs;
@@ -28,8 +29,6 @@ public class MainThread {
         Map<String, JsonPointer> hashPath = hardwareBusca.encontrarPath(node);
 
 
-
-
         executorService.scheduleAtFixedRate(
 
                 () -> {
@@ -38,12 +37,14 @@ public class MainThread {
                         try {
                             getThread.getLHMInfo(hashPath, isRunning);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            submissionPublisher
+                                    .submit(new AppEvent<>(AppEvent.EventType.LOG_ERROR, new LogData(MainThread.class.getSimpleName(), "FALHA AO CHAMAR O METODO GETTHREAD", e)));
+
 
                         }
 
                     } else {
-                        System.out.println("Pulando... Leitura anterior ainda em curso.");
+                        submissionPublisher.submit(new AppEvent<>(AppEvent.EventType.LOG_WARN, new LogData(MainThread.class.getSimpleName(), "PULANDO LEITURA...", null)));
                     }
 
 
@@ -56,6 +57,7 @@ public class MainThread {
 
     public void stop() {
         executorService.shutdown();
+
     }
 
 
