@@ -15,7 +15,6 @@ import com.fernandoprado.lhmagent.view.ViewPrint;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.SubmissionPublisher;
 
