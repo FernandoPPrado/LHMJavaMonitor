@@ -16,10 +16,12 @@ import feign.Feign;
 import feign.jackson.JacksonDecoder;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Flow;
 import java.util.concurrent.SubmissionPublisher;
 
 public class MainService {
-    private final SubmissionPublisher<AppEvent<?>> submissionPublisher = new SubmissionPublisher<>();
+    private final SubmissionPublisher<AppEvent<?>> submissionPublisher = new SubmissionPublisher<>(Executors.newVirtualThreadPerTaskExecutor(), Flow.defaultBufferSize());
     ViewPrint viewPrint = new ViewPrint(submissionPublisher);
     TrayView trayView = new TrayView(submissionPublisher);
     HardwareFinder hardwareFinder = new HardwareFinder();
