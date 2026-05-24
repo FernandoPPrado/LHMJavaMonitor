@@ -1,8 +1,7 @@
 # LHM Agent — Monitor de Hardware com RabbitMQ
 
 Agente Java que coleta dados de hardware (CPU, GPU e memória) usando o **LibreHardwareMonitor** e os publica em uma fila
-**RabbitMQ** para consumo remoto. Roda em segundo plano com ícone na *system tray* do Windows utilizando um pico de 70mb
-de ram e 1% maximo de CPU.
+**RabbitMQ** para consumo remoto. Roda em segundo plano com ícone na *system tray* do Windows, com pico de **70 MB de RAM** e **1% máximo de CPU**.
 
 ---
 
@@ -187,12 +186,8 @@ O encerramento limpo é feito pelo menu *CLOSE* do ícone na *system tray*:
 
 ```java
 RabbitMQProvider.closeConnection();
-LhmProcessManager.
-
-closeLhm();
-System.
-
-exit(0);
+LhmProcessManager.closeLhm();
+System.exit(0);
 ```
 
 Também é acionado automaticamente caso o agente não consiga conectar ao LHM em até 10 tentativas.
@@ -215,3 +210,6 @@ Também é acionado automaticamente caso o agente não consiga conectar ao LHM e
 ## Autor
 
 **Fernando Prado** — `com.fernandoprado.lhmagent`
+
+- 💼 LinkedIn: [fernando-prado21](https://www.linkedin.com/in/fernando-prado21)
+- 🐙 GitHub: [FernandoPPrado](https://github.com/FernandoPPrado)
